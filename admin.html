@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices Admin</div>
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</nav>
+
+<main class="page">
+  <!-- ADMIN TABS -->
+  <div class="admin-tabs">
+    <button class="tab-btn active" onclick="switchTab('courses')">📚 Courses</button>
+    <button class="tab-btn" onclick="switchTab('products')">🛍️ Products</button>
+    <button class="tab-btn" onclick="switchTab('orders')">📦 Orders</button>
+  </div>
+
+  <!-- COURSES TAB -->
+  <div id="coursesTab" class="tab-content active">
+    <div class="auth-card" style="max-width: 600px;">
+      <h2>➕ Add New Course</h2>
+      <p class="muted-text">Fill in the course details below</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Course Title</label>
+          <input id="title" type="text" placeholder="e.g., Arduino Basics" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Price (€)</label>
+          <input id="price" type="number" placeholder="29.99" step="0.01" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Image URL</label>
+          <input id="img" type="url" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Description</label>
+          <textarea id="desc" placeholder="Course description..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text); min-height: 100px; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <button class="btn primary full" onclick="addCourse()" style="margin-top: 10px;">Create Course</button>
+        <p id="msg" class="success" style="color: #10b981; text-align: center;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS TAB -->
+  <div id="productsTab" class="tab-content" style="display: none;">
+    <div class="auth-card" style="max-width: 600px;">
+      <h2>➕ Add New Product</h2>
+      <p class="muted-text">Create a product to sell with your courses</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Product Name</label>
+          <input id="productName" type="text" placeholder="e.g., Arduino Kit Starter Pack" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div>
+            <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Price (€)</label>
+            <input id="productPrice" type="number" placeholder="49.99" step="0.01" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+          </div>
+
+          <div>
+            <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Stock</label>
+            <input id="productStock" type="number" placeholder="100" min="0" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Category</label>
+          <select id="productCategory" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+            <option value="electronics">🔌 Electronics</option>
+            <option value="components">🔩 Components</option>
+            <option value="boards">📱 Boards & Kits</option>
+            <option value="accessories">🎧 Accessories</option>
+            <option value="other">📦 Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Product Image URL</label>
+          <input id="productImg" type="url" placeholder="https://example.com/product.jpg" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">Description</label>
+          <textarea id="productDesc" placeholder="Product description, features, specifications..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text); min-height: 100px; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <div>
+          <label style="font-size: 0.9rem; color: var(--muted); display: block; margin-bottom: 5px;">SKU (optional)</label>
+          <input id="productSku" type="text" placeholder="e.g., ARD-STARTER-001" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.07); color: var(--text);">
+        </div>
+
+        <button class="btn primary full" onclick="addProduct()" style="margin-top: 10px;">Create Product</button>
+        <p id="productMsg" class="success" style="color: #10b981; text-align: center;"></p>
+      </div>
+
+      <!-- PRODUCTS LIST -->
+      <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px;">
+        <h3>📋 Your Products</h3>
+        <div id="productsList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+          <!-- Products will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERS TAB -->
+  <div id="ordersTab" class="tab-content" style="display: none;">
+    <div class="auth-card" style="max-width: 900px;">
+      <h2>📦 Orders & Sales</h2>
+      <p class="muted-text">Manage customer orders and track sales</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0;">
+        <div class="stat-card">
+          <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+          <div style="font-size: 0.9rem; color: var(--muted);">Total Orders</div>
+          <div style="font-size: 1.8rem; font-weight: 600; color: var(--primary);" id="totalOrders">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div style="font-size: 2rem; margin-bottom: 10px;">💰</div>
+          <div style="font-size: 0.9rem; color: var(--muted);">Total Revenue</div>
+          <div style="font-size: 1.8rem; font-weight: 600; color: var(--primary);" id="totalRevenue">€0</div>
+        </div>
+
+        <div class="stat-card">
+          <div style="font-size: 2rem; margin-bottom: 10px;">🛒</div>
+          <div style="font-size: 0.9rem; color: var(--muted);">Pending Orders</div>
+          <div style="font-size: 1.8rem; font-weight: 600; color: #fbbf24;" id="pendingOrders">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div style="font-size: 2rem; margin-bottom: 10px;">✓</div>
+          <div style="font-size: 0.9rem; color: var(--muted);">Completed</div>
+          <div style="font-size: 1.8rem; font-weight: 600; color: #10b981;" id="completedOrders">0</div>
+        </div>
+      </div>
+
+      <div id="ordersList" style="margin-top: 30px;">
+        <p style="color: var(--muted); text-align: center; padding: 40px;">No orders yet</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  © 2026 - RaidServices Admin
+</footer>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="admin.js"></script>
+
+</body>
+</html>

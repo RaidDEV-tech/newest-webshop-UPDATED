@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RaidServices - Learn & Master Tech Skills</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices</div>
+
+  <div class="nav-right">
+    <a href="index.html" class="active">Home</a>
+    <a href="courses_projects.html">Courses/Projects</a>
+    <a href="projects.html" style="display:none">Projects</a>
+    <a href="info.html">Info</a>
+    <a href="chatbot.html">💬 Chatbot</a>
+    <a href="pricing.html">💰 Pricing</a>
+
+    <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+    <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'" style="display:none">
+      🛒
+    </button>
+
+    <div id="profileBox" class="profile" style="display:none">
+      <img id="profilePic" class="avatar" alt="profile">
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="registerLink" href="register.html">Register</a>
+  </div>
+</nav>
+
+<main class="page">
+  <!-- SPIN WHEEL SECTION -->
+  <section class="spin-wheel-section">
+    <div class="spin-wheel-container">
+      <h2>🎡 Try Your Luck!</h2>
+      <p>Spin the wheel to see what discount you could win!</p>
+      
+      <div class="spin-wheel-wrapper">
+        <div class="spin-wheel" id="spinWheel">
+          <div class="wheel-segment" style="--rotation: 0deg;"><span>5%</span></div>
+          <div class="wheel-segment" style="--rotation: 45deg;"><span>10%</span></div>
+          <div class="wheel-segment" style="--rotation: 90deg;"><span>15%</span></div>
+          <div class="wheel-segment" style="--rotation: 135deg;"><span>Free Course</span></div>
+          <div class="wheel-segment" style="--rotation: 180deg;"><span>20%</span></div>
+          <div class="wheel-segment" style="--rotation: 225deg;"><span>25%</span></div>
+          <div class="wheel-segment" style="--rotation: 270deg;"><span>🎁 Bonus free product</span></div>
+          <div class="wheel-segment" style="--rotation: 315deg;"><span>30%</span></div>
+        </div>
+        <div class="wheel-pointer"></div>
+      </div>
+      
+      <button class="btn primary" onclick="spinTheWheel()" style="margin-top: 30px; font-size: 1.1rem; padding: 15px 40px;">SPIN NOW!</button>
+      <p class="wheel-result" id="wheelResult" style="margin-top: 20px; text-align: center; color: var(--primary); font-weight: 600; min-height: 30px;"></p>
+    </div>
+  </section>
+
+  <section class="hero">
+    <h1>Learn Skills That Help You Further</h1>
+    <p>Master Arduino, Raspberry Pi, Cyber Security, and more</p>
+    <a href="courses_projects.html" class="btn primary">Explore Courses</a>
+  </section>
+
+  <section class="features">
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <h3>Expert-Led Courses</h3>
+      <p>Learn from industry professionals with real-world experience</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚀</div>
+      <h3>Hands-On Projects</h3>
+      <p>Build real projects with Arduino, Raspberry Pi, and more</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔐</div>
+      <h3>Cyber Security Focus</h3>
+      <p>Understand and implement security best practices</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💼</div>
+      <h3>Career Ready</h3>
+      <p>Skills that employers are looking for</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2026 – ⚡ RaidServices. All rights reserved.
+  </footer>
+
+<!-- LOGIN BONUS MODAL -->
+<div id="loginBonusModal" class="bonus-modal">
+  <div class="bonus-card">
+    <h2>🎉 Welcome Bonus!</h2>
+    <p>You've unlocked a special reward!</p>
+    <div class="discount-badge">5%</div>
+    <p><strong>5% Welcome Discount</strong></p>
+    <p>Valid on your first purchase</p>
+    <button class="btn" onclick="document.getElementById('loginBonusModal').remove()">Get Started 🚀</button>
+  </div>
+</div>
+<script type="module" src="utils.js"></script>
+<script src="cart-api.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="nav-auth.js"></script>
+
+<script>
+  let isSpinning = false;
+  const discounts = ["5%", "10%", "15%", "Free Course", "20%", "25%", "🎁 Bonus", "30%"];
+  
+  window.spinTheWheel = () => {
+    if (isSpinning) return;
+    
+    isSpinning = true;
+    const wheel = document.getElementById("spinWheel");
+    const resultDiv = document.getElementById("wheelResult");
+    resultDiv.innerText = "";
+    
+    // Random spin (multiple rotations + final position)
+    const randomIndex = Math.floor(Math.random() * discounts.length);
+    const spinDegrees = 360 * 5 + (randomIndex * 45);
+    
+    wheel.style.transition = "transform 4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+    wheel.style.transform = `rotate(${spinDegrees}deg)`;
+    
+    setTimeout(() => {
+      resultDiv.innerText = `🎉 You won: ${discounts[randomIndex]}!`;
+      isSpinning = false;
+      wheel.style.transition = "none";
+    }, 4000);
+  };
+</script>
+</body>
+</html>

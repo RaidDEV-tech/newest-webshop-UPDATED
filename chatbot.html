@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Assistant - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices</div>
+
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="courses_projects.html">Courses/Projects</a>
+    <a href="chatbot.html" class="active">💬 Chatbot</a>
+    <a href="pricing.html">💰 Pricing</a>
+
+    <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+    <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'" style="display:none">
+      🛒 <span id="cartCount" style="font-size:0.8rem">(0)</span>
+    </button>
+
+    <div id="profileBox" class="profile" style="display:none">
+      <img id="profilePic" class="avatar" alt="profile">
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="registerLink" href="register.html">Register</a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="chatbot-container">
+    <div class="chatbot-header">
+      <h2>🤖 RaidServices Assistant</h2>
+      <p>Ask me anything about Arduino, Python, courses, projects, and more!</p>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+      <div class="chat-message bot-message">
+        <div class="message-content">
+          <p>👋 Hello! I'm your RaidServices Assistant. I can help you with questions about Arduino, Raspberry Pi, Cybersecurity, Python, Web Development, Linux, Scratch, Database, and Networking.</p>
+          <p style="margin-top: 10px; font-size: 0.9rem; color: var(--muted);">Try asking:</p>
+          <ul style="font-size: 0.9rem; margin-top: 8px;">
+            <li>How do I start with Arduino?</li>
+            <li>What is a sensor in Arduino?</li>
+            <li>Help me with LED blinking project</li>
+            <li>What's the difference between Arduino and Raspberry Pi?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="input-group" style="flex: 1; display: flex; gap: 10px;">
+        <input 
+          id="userInput" 
+          type="text" 
+          placeholder="Ask me something..." 
+          class="chat-input"
+          onkeypress="if(event.key==='Enter') sendMessage()"
+        >
+        <button class="btn primary" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  © 2026 - ⚡ RaidServices
+</footer>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="utils.js"></script>
+<script src="cart-api.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="nav-auth.js"></script>
+<script type="module" src="chatbot.js"></script>
+</body>
+</html>

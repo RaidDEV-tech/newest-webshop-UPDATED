@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Plans - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices</div>
+
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="courses_projects.html">Courses/Projects</a>
+    <a href="chatbot.html">💬 Chatbot</a>
+    <a href="pricing.html" class="active">💰 Pricing</a>
+
+    <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+    <button id="cartBtn" class="btn cartBtn" onclick="toggleCart()" style="display:none">
+      🛒 <span id="cartCount" style="font-size:0.8rem">(0)</span>
+    </button>
+
+    <div id="profileBox" class="profile" style="display:none">
+      <img id="profilePic" class="avatar" alt="profile">
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="registerLink" href="register.html">Register</a>
+  </div>
+</nav>
+
+<!-- CART SIDEBAR -->
+<div id="cartSidebar" class="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Shopping Cart</h3>
+    <button onclick="toggleCart()" class="close-btn">✕</button>
+  </div>
+  <div id="cartSidebarList" class="cart-list"></div>
+  <div class="cart-footer">
+    <div id="cartSidebarTotal" class="total">Totaal: €0</div>
+    <button class="btn primary full" onclick="goToCheckout()">Go to Checkout</button>
+  </div>
+</div>
+
+<main class="page">
+  <section class="pricing-header">
+    <h1>Choose Your Plan</h1>
+    <p>Get unlimited access to courses, projects, and chatbot support with our subscription plans</p>
+    
+    <!-- BILLING TOGGLE -->
+    <div class="billing-toggle">
+      <span class="toggle-label monthly-active">Monthly</span>
+      <button class="toggle-btn" id="billingToggle" onclick="toggleBilling()"></button>
+      <span class="toggle-label">Yearly</span>
+      <span class="save-badge" id="saveBadge">Save €5/year</span>
+    </div>
+  </section>
+
+  <section class="pricing-container">
+    <!-- BASIC PLAN -->
+    <div class="pricing-card basic">
+      <div class="plan-header">
+        <h2>Basic</h2>
+        <p class="plan-description">Perfect for learning at your own pace</p>
+      </div>
+      
+      <div class="pricing-display">
+        <span class="currency">€</span>
+        <span class="price" id="basicPrice">0</span>
+        <span class="period">/month</span>
+      </div>
+
+      <p class="plan-subtext">Free forever</p>
+
+      <button class="btn primary full" onclick="selectPlan('basic')">Get Started</button>
+
+      <div class="features-list">
+        <h3>Includes:</h3>
+        <ul>
+          <li>✅ Browse all courses</li>
+          <li>✅ View project details</li>
+          <li>✅ Limited chatbot access (5 messages/day)</li>
+          <li>❌ No course downloads</li>
+          <li>❌ No project code access</li>
+          <li>❌ No certificate</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PREMIUM PLAN -->
+    <div class="pricing-card premium featured">
+      <div class="best-badge">⭐ Most Popular</div>
+      
+      <div class="plan-header">
+        <h2>Premium</h2>
+        <p class="plan-description">Unlimited learning & full access</p>
+      </div>
+      
+      <div class="pricing-display">
+        <span class="currency">€</span>
+        <span class="price" id="premiumPrice">15</span>
+        <span class="period" id="premiumPeriod">/month</span>
+      </div>
+
+      <p class="plan-subtext" id="planSubtext">Billed monthly</p>
+
+      <button class="btn primary full" onclick="selectPlan('premium')">Subscribe Now</button>
+
+      <div class="features-list">
+        <h3>Everything in Basic, plus:</h3>
+        <ul>
+          <li>✅ All courses included</li>
+          <li>✅ Download course materials</li>
+          <li>✅ Full project code access</li>
+          <li>✅ All projects for free</li>
+          <li>✅ Unlimited chatbot access</li>
+          <li>✅ Priority support</li>
+          <li>✅ Certificates of completion</li>
+          <li>✅ Monthly new content</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span>Can I cancel my subscription anytime?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-answer">
+        <p>Yes! You can cancel your subscription anytime. There are no long-term commitments or hidden fees. Your access will continue until the end of the billing period.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span>What's the difference between Basic and Premium?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-answer">
+        <p>Basic is free and lets you browse courses and projects. Premium gives you full access to all courses, projects, downloadable materials, unlimited chatbot support, and certificates of completion.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span>Do I get a discount for yearly billing?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-answer">
+        <p>Yes! When you choose yearly billing, you pay €175 instead of €180 (€15 × 12). That's a €5 discount per year!</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span>Is there a free trial?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-answer">
+        <p>Start with our Free Basic plan to explore courses and projects. If you want premium features, you can upgrade anytime.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFAQ(this)">
+        <span>What payment methods do you accept?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-answer">
+        <p>We accept all major credit cards, PayPal, and other secure payment methods. Your payment is processed securely.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2026 – ⚡ RaidServices. All rights reserved.
+  </footer>
+</main>
+
+<!-- SUBSCRIPTION MODAL -->
+<div id="subscriptionModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle">Upgrade to Premium</h2>
+      <button class="modal-close" onclick="closeSubscriptionModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="modalMessage" style="text-align: center; padding: 20px;">
+        <p id="modalText"></p>
+        <p style="color: var(--muted); margin-top: 15px;">Please <a href="login.html" style="color: var(--primary);">log in</a> or <a href="register.html" style="color: var(--primary);">create an account</a> to subscribe.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="nav-auth.js"></script>
+<script type="module" src="sidebar-cart.js"></script>
+<script type="module" src="subscription.js"></script>
+
+</body>
+</html>

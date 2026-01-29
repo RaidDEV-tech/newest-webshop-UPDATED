@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Courses & Projects</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand">⚡ RaidServices</div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="courses_projects.html" class="active">Courses/Projects</a>
+      <a href="chatbot.html">💬 Chatbot</a>
+      <a href="pricing.html">💰 Pricing</a>
+      <a href="info.html">Info</a>
+
+      <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'">
+        🛒 <span id="cartCount" style="font-size:0.8rem">(0)</span>
+      </button>
+
+      <div id="profileBox" class="profile" style="display:none">
+        <img id="profilePic" class="avatar" alt="profile">
+        <div class="dropdown">
+          <a href="profile.html">Profile</a>
+          <a href="settings.html">Settings</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </div>
+
+      <a id="loginLink" href="login.html">Login</a>
+      <a id="registerLink" href="register.html">Register</a>
+    </div>
+  </nav>
+
+  <main class="page">
+  <div class="container" style="max-width:1000px;margin:0 auto;">
+    <header>
+      <h1 style="text-align:center;">Courses & Projects</h1>
+    </header>
+
+    <!-- FILTER BAR -->
+    <div style="background:var(--muted);padding:20px;border-radius:12px;margin-bottom:30px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;">
+        <h3 style="margin:0;font-size:16px;font-weight:700;">🔍 Filter</h3>
+        
+        <div style="display:flex;gap:15px;flex-wrap:wrap;">
+          <!-- Category Filter -->
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:8px;font-size:12px;">Category</label>
+            <select style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);cursor:pointer;font-size:13px;">
+              <option>All Categories</option>
+              <option>Web Development</option>
+              <option>Mobile Development</option>
+              <option>Hardware & IoT</option>
+              <option>Cybersecurity</option>
+              <option>Data Science</option>
+              <option>Game Development</option>
+              <option>Cloud & DevOps</option>
+              <option>Blockchain</option>
+            </select>
+          </div>
+
+          <!-- Difficulty Filter -->
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:8px;font-size:12px;">Difficulty</label>
+            <select style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);cursor:pointer;font-size:13px;">
+              <option>All Levels</option>
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+          </div>
+
+          <!-- Price Filter -->
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:8px;font-size:12px;">Price</label>
+            <select style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);cursor:pointer;font-size:13px;">
+              <option>All Prices</option>
+              <option>Free</option>
+              <option>€0 - €25</option>
+              <option>€25 - €50</option>
+              <option>€50+</option>
+            </select>
+          </div>
+
+          <!-- Type Filter -->
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:8px;font-size:12px;">Type</label>
+            <select style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);cursor:pointer;font-size:13px;">
+              <option>All Types</option>
+              <option>Courses</option>
+              <option>Projects</option>
+              <option>Ideas</option>
+            </select>
+          </div>
+
+          <!-- Search Input -->
+          <div style="flex:1;min-width:200px;">
+            <label style="display:block;font-weight:600;margin-bottom:8px;font-size:12px;">Search</label>
+            <input type="text" placeholder="Search courses..." style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:13px;">
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button style="padding:8px 16px;background:var(--primary);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap;margin-top:30px;width:100%;opacity:0.8;transition:opacity 0.2s;">
+          ↺ Reset Filters
+        </button>
+      </div>
+
+      <!-- Quick Tags -->
+      <div style="margin-top:15px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="font-weight:600;font-size:12px;color:var(--muted);">Popular:</span>
+        <button style="padding:6px 12px;background:var(--primary);color:white;border:none;border-radius:20px;cursor:pointer;font-size:12px;opacity:0.9;transition:opacity 0.2s;">Web Dev</button>
+        <button style="padding:6px 12px;background:var(--primary);color:white;border:none;border-radius:20px;cursor:pointer;font-size:12px;opacity:0.9;transition:opacity 0.2s;">Python</button>
+        <button style="padding:6px 12px;background:var(--primary);color:white;border:none;border-radius:20px;cursor:pointer;font-size:12px;opacity:0.9;transition:opacity 0.2s;">Arduino</button>
+        <button style="padding:6px 12px;background:var(--primary);color:white;border:none;border-radius:20px;cursor:pointer;font-size:12px;opacity:0.9;transition:opacity 0.2s;">Cybersecurity</button>
+      </div>
+    </div>
+
+    <section id="courses" style="width:100%;">
+      <h2 style="text-align:center;">Courses</h2>
+      <div class="grid" style="justify-items:center;max-width:100%;">
+        <article class="card">
+          <h3>Intro to Web Development</h3>
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&h=250&fit=crop" alt="Web Development" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Learn HTML, CSS and JavaScript to build modern responsive websites. Includes hands-on projects and quizzes.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€19.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=web-dev">View course</a>
+            <button class="btn" onclick="addToCart('local-web-dev','Intro to Web Development',19.99)">Add €19.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>JavaScript Fundamentals</h3>
+          <img src="https://logos-world.net/wp-content/uploads/2023/02/JavaScript-Symbol.png" alt="JavaScript" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Deep dive into core JavaScript concepts: functions, closures, async programming, and DOM manipulation.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€24.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=js-fundamentals">View course</a>
+            <button class="btn" onclick="addToCart('local-js-fund','JavaScript Fundamentals',24.99)">Add €24.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Firebase & Backend</h3>
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop" alt="Firebase" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Build realtime apps using Firebase Authentication, Firestore, and Cloud Functions.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€29.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=firebase">View course</a>
+            <button class="btn" onclick="addToCart('local-firebase','Firebase & Backend',29.99)">Add €29.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>UX Design Basics</h3>
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=250&fit=crop" alt="UX Design" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Design user-friendly interfaces with practical guidance on layout, color, and accessibility.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€17.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=ux">View course</a>
+            <button class="btn" onclick="addToCart('local-ux','UX Design Basics',17.99)">Add €17.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Arduino Basics & IoT</h3>
+          <img src="https://tse3.mm.bing.net/th/id/OIP.ORnyv0tMOiO9kce2mnwJRgEsDQ?pid=Api&P=0&h=180" alt="Arduino" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Start building electronics projects with Arduino: sensors, motors and simple IoT systems.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€21.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=arduino">View course</a>
+            <button class="btn" onclick="addToCart('local-arduino','Arduino Basics & IoT',21.99)">Add €21.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Raspberry Pi Projects</h3>
+          <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=250&fit=crop" alt="Raspberry Pi" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>From Linux basics to IoT dashboards — hands-on Raspberry Pi projects to take you further.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€26.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=raspberry">View course</a>
+            <button class="btn" onclick="addToCart('local-rpi','Raspberry Pi Projects',26.99)">Add €26.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Cybersecurity Essentials</h3>
+          <img src="https://d3lu3qnchgm3nw.cloudfront.net/AcuCustom/Sitename/DAM/028/iStock-1420039900.jpg" alt="Cybersecurity" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Learn fundamentals of network security and practical hardening techniques.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€34.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=cyber">View course</a>
+            <button class="btn" onclick="addToCart('local-cyber','Cybersecurity Essentials',34.99)">Add €34.99</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Full-Stack Web Basics</h3>
+          <img src="https://creator-assets.codedamn.com/official-61897bfe60f1140008feb00d/course-image/2022-08-06/a042b3f5d7a3fdde198adaffffa0cd3c46163a05" alt="Full-Stack" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>HTML, CSS, JavaScript, and an intro to backend APIs — perfect for launching small web projects.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€39.99</p>
+          <div style="display:flex;gap:8px;">
+            <a class="btn primary" href="course-detail.html?course=fullstack">View course</a>
+            <button class="btn" onclick="addToCart('local-fullstack','Full-Stack Web Basics',39.99)">Add €39.99</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <hr style="margin:28px 0">
+
+    <section id="projects" style="width:100%;">
+      <h2 style="text-align:center;">Projects</h2>
+      <div class="grid" style="justify-items:center;max-width:100%;">
+        <article class="card">
+          <h3>Personal Portfolio</h3>
+          <p>A static portfolio site showing projects and contact information. Good starter project.</p>
+          <a class="btn" href="project-detail.html?project=portfolio">Open project</a>
+        </article>
+
+        <article class="card">
+          <h3>E-commerce Demo</h3>
+          <p>Simple shopping cart, product listing, and checkout flow using client-side code and localStorage.</p>
+          <a class="btn" href="project-detail.html?project=ecommerce">Open project</a>
+        </article>
+
+        <article class="card">
+          <h3>Chatbot Integration</h3>
+          <p>Connect a Generative AI extension (Firestore GenAI) to power chat features in your app.</p>
+          <a class="btn" href="chatbot.html">Open chatbot</a>
+        </article>
+        <article class="card">
+          <h3>Smart Home Dashboard</h3>
+          <p>Build a real-time dashboard to monitor and control IoT devices at home using Firebase and Arduino.</p>
+          <a class="btn" href="#">View project</a>
+        </article>
+
+        <article class="card">
+          <h3>Real-time Chat App</h3>
+          <p>Create a messaging platform with real-time notifications using Firestore and WebSockets.</p>
+          <a class="btn" href="#">View project</a>
+        </article>
+
+        <article class="card">
+          <h3>Weather Monitoring System</h3>
+          <p>Collect and visualize real-time weather data from multiple sensors using Raspberry Pi.</p>
+          <a class="btn" href="#">View project</a>
+        </article>
+
+        <article class="card">
+          <h3>Task Management App</h3>
+          <p>A productivity tool with drag-and-drop tasks, deadline tracking, and team collaboration features.</p>
+          <a class="btn" href="#">View project</a>
+        </article>
+      </div>
+    </section>
+
+    <hr style="margin:28px 0">
+
+    <section id="morecourses" style="width:100%;">
+      <h2 style="text-align:center;">More Courses Coming Soon</h2>
+      <div class="grid" style="justify-items:center;max-width:100%;">
+        <article class="card">
+          <h3>Python for Data Science</h3>
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop" alt="Python Data Science" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Learn pandas, numpy, and matplotlib to analyze data and create visualizations with Python.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€32.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-python-ds','Python for Data Science',32.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>React Advanced Patterns</h3>
+          <img src="https://tse1.mm.bing.net/th/id/OIP.4U6--b8QMKadYnvyRMrd-gHaD_?pid=Api&P=0&h=180" alt="React" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Master hooks, context API, state management with Redux, and performance optimization.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€36.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-react-adv','React Advanced Patterns',36.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Machine Learning Basics</h3>
+          <img src="https://jelvix.com/wp-content/uploads/2022/07/steps-machine-learning-1.png" alt="Machine Learning" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Introduction to ML algorithms, scikit-learn, and building predictive models with real datasets.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€44.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-ml','Machine Learning Basics',44.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Mobile Dev with React Native</h3>
+          <img src="https://images.unsplash.com/photo-1512941691920-25bdb3b06399?w=400&h=250&fit=crop" alt="React Native" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Build iOS and Android apps with JavaScript and React Native. One codebase, two platforms.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€40.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-rn','Mobile Dev with React Native',40.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Cloud Security & AWS</h3>
+          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=250&fit=crop" alt="Cloud Security" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Learn AWS fundamentals, EC2, S3, IAM security best practices, and cloud architecture design.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€48.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-aws','Cloud Security & AWS',48.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Web 3.0 & Blockchain</h3>
+          <img src="https://images.unsplash.com/photo-1639762681033-6461854140e7?w=400&h=250&fit=crop" alt="Blockchain" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Understand blockchain, smart contracts with Solidity, and build decentralized applications (dApps).</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€52.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-web3','Web 3.0 & Blockchain',52.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Advanced Cybersecurity</h3>
+          <img src="https://images.unsplash.com/photo-1563986768609-322d6d02df29?w=400&h=250&fit=crop" alt="Advanced Cyber" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Penetration testing, ethical hacking, network forensics, and vulnerability assessment techniques.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€54.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-adv-cyber','Advanced Cybersecurity',54.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Game Dev with Unity</h3>
+          <img src="https://images.unsplash.com/photo-1538481143235-39a1c3b69dcc?w=400&h=250&fit=crop" alt="Game Dev" style="width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+          <p>Create 2D and 3D games using Unity engine. Learn game loops, physics, and game design patterns.</p>
+          <p style="color:var(--primary);font-weight:700;margin:8px 0;">€45.99</p>
+          <div style="display:flex;gap:8px;">
+            <button class="btn" onclick="addToCart('local-unity','Game Dev with Unity',45.99)" style="opacity:0.6;cursor:not-allowed;">Coming Soon</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <hr style="margin:28px 0">
+
+    <section id="ideas" style="width:100%;background:var(--muted);padding:30px 20px;border-radius:12px;margin-bottom:40px;">
+      <h2 style="text-align:center;margin-bottom:30px;">🚀 Ideas & Upcoming Features</h2>
+      <div class="grid" style="justify-items:center;max-width:100%;">
+        <article class="card">
+          <h3>💫 VR Development</h3>
+          <p>Build immersive virtual reality experiences using Three.js and WebXR API.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q2 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>🤖 AI & GPT Integration</h3>
+          <p>Learn to integrate OpenAI and Anthropic APIs into your applications for intelligent features.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q2 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>🛸 Drone Programming</h3>
+          <p>Program autonomous drones using Python and drone APIs. Build flight path algorithms.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q3 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>⚛️ Quantum Computing Intro</h3>
+          <p>Explore quantum computing basics with Qiskit and build quantum algorithms.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q4 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>🎵 Advanced Audio Processing</h3>
+          <p>Create audio editing tools, synthesizers, and music visualizers with Web Audio API.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q2 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>🌍 GIS & Mapping</h3>
+          <p>Build location-based applications using Mapbox, Leaflet, and geospatial analysis.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q3 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>📡 IoT Fleet Management</h3>
+          <p>Manage hundreds of IoT devices, track real-time data, and build analytics dashboards.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q3 2026</p>
+        </article>
+
+        <article class="card">
+          <h3>🔐 Zero-Trust Security</h3>
+          <p>Implement modern security architecture with OAuth2, encryption, and threat detection.</p>
+          <p style="font-size:12px;color:var(--muted);">Planned for Q4 2026</p>
+        </article>
+      </div>
+    </section>
+
+  </div>
+  </main>
+  
+  <script src="cart-api.js"></script>
+  <script>
+    // minimal script: if courses.js / projects.js exist, let them run
+    (function(){
+      var s1 = document.createElement('script'); s1.src='courses.js'; s1.async=true; s1.onload = function(){}; document.body.appendChild(s1);
+      var s2 = document.createElement('script'); s2.src='projects.js'; s2.async=true; document.body.appendChild(s2);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices</div>
+
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+
+    <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+    <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'" style="display:none">
+      🛒
+    </button>
+
+    <div id="profileBox" class="profile" style="display:none">
+      <img id="profilePic" class="avatar" alt="profile">
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="registerLink" href="register.html">Register</a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="auth-card" style="max-width: 500px; margin: 0 auto;">
+    <h2>👤 Your Profile</h2>
+    <div style="text-align: center; margin: 30px 0;">
+      <img id="userProfilePic" src="" alt="profile" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary);">
+    </div>
+    <div class="profile-info">
+      <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="userPhone">Not set</span></p>
+      <p><strong>Account Type:</strong> <span id="accountType">Anonymous</span></p>
+      <p><strong>Joined:</strong> <span id="joinDate">Loading...</span></p>
+    </div>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <a href="settings.html" class="btn secondary full">Settings</a>
+      <button class="btn primary full" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  © 2026 - ⚡ RaidServices
+</footer>
+
+<script type="module">
+import { auth } from "./firebase.js";
+import { Toast } from "./utils.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("userName").innerText = user.displayName || "Anonymous User";
+  document.getElementById("userEmail").innerText = user.email || "No email";
+  document.getElementById("userPhone").innerText = user.phoneNumber || "Not set";
+  document.getElementById("userProfilePic").src = user.photoURL || "https://via.placeholder.com/100?text=Avatar";
+  
+  if (user.isAnonymous) {
+    document.getElementById("accountType").innerText = "Anonymous";
+  } else if (user.providerData && user.providerData.length > 0) {
+    const provider = user.providerData[0].providerId;
+    document.getElementById("accountType").innerText = provider.replace(".com", "").toUpperCase();
+  }
+
+  const joinDate = new Date(user.metadata.creationTime).toLocaleDateString('nl-NL');
+  document.getElementById("joinDate").innerText = joinDate;
+});
+</script>
+<script type="module" src="nav-auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Details - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">⚡ RaidServices</h1>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="courses_projects.html">📚 Courses/Projects</a>
+        <a href="chatbot.html">💬 Chatbot</a>
+
+        <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+        <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'" style="display:none">
+          🛒 <span id="cartCount" style="font-size:0.8rem">(0)</span>
+        </button>
+
+        <button id="profileBtn" class="btn primary" onclick="showProfile()" style="display:none">
+          👤 Profile
+        </button>
+        <button id="loginBtn" class="btn primary" onclick="location.href='login.html'">
+          🔓 Login
+        </button>
+        <button id="logoutBtn" class="btn" onclick="logout()" style="display:none">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="project-detail-container">
+      <button class="btn" onclick="window.location.href='courses_projects.html'" style="margin-bottom: 20px;">← Back to Courses/Projects</button>
+      
+      <div class="project-detail-header">
+        <img id="projectImage" src="" alt="Project" class="project-detail-image">
+        <div class="project-detail-info">
+          <h1 id="projectName"></h1>
+          <p id="projectDescription" class="project-detail-desc"></p>
+          
+          <div class="project-detail-meta">
+            <span class="badge">
+              <strong>Difficulty:</strong> <span id="projectDifficulty"></span>
+            </span>
+            <span class="badge">
+              <strong>Duration:</strong> <span id="projectDuration"></span>
+            </span>
+            <span class="badge">
+              <strong>Course:</strong> <span id="projectCourse"></span>
+            </span>
+          </div>
+
+          <button class="btn primary full" onclick="startProject()" style="margin-top: 20px; padding: 15px;">
+            🚀 Start This Project
+          </button>
+        </div>
+      </div>
+
+      <!-- Tutorial Section -->
+      <div class="tutorial-section">
+        <h2>📖 Tutorial</h2>
+        <div id="tutorialContent" class="tutorial-content"></div>
+      </div>
+
+      <!-- Chatbot Help Section -->
+      <div class="help-section">
+        <h3>💡 Need Help?</h3>
+        <p>Our AI Chatbot is ready to help! Click below to ask questions about this project.</p>
+        <button class="btn primary" onclick="openChatbotHelp()">
+          💬 Ask Chatbot
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 ⚡ RaidServices. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="utils.js"></script>
+    <script src="cart-api.js"></script>
+    <script type="module" src="nav-auth.js"></script>
+  <script type="module" src="project-detail.js"></script>
+</body>
+</html>

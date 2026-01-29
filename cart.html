@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices</div>
+
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="courses_projects.html">Courses/Projects</a>
+    <a href="pricing.html">💰 Pricing</a>
+
+    <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+    <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'" style="display:none">
+      🛒
+    </button>
+
+    <div id="profileBox" class="profile" style="display:none">
+      <img id="profilePic" class="avatar" alt="profile">
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="registerLink" href="register.html">Register</a>
+  </div>
+</nav>
+
+<main class="page" style="padding-top: 120px; justify-content: flex-start;">
+  <div class="cart-container">
+    <h2>🛒 Shopping Cart</h2>
+    <div id="cartList" class="courses"></div>
+    <div class="cart-summary">
+      <h3 id="total">Totaal: €0</h3>
+      <button class="btn primary" onclick="checkout()" style="width: 100%; margin-top: 20px;">Proceed to Checkout</button>
+      <a href="courses_projects.html" class="btn secondary full" style="text-align: center; text-decoration: none; margin-top: 10px;">Continue Shopping</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  © 2026 - RaidServices
+</footer>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="utils.js"></script>
+<script src="cart-api.js"></script>
+<script type="module" src="auth.js"></script>
+<script type="module" src="nav-auth.js"></script>
+<script type="module" src="cart.js"></script>
+</body>
+</html>

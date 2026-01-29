@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - RaidServices</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">⚡ RaidServices</div>
+
+  <div class="nav-right">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+
+    <a id="adminLink" href="admin.html" style="display:none">Admin Panel</a>
+
+    <button id="cartBtn" class="btn cartBtn" onclick="location.href='cart.html'" style="display:none">
+      🛒
+    </button>
+
+    <div id="profileBox" class="profile" style="display:none">
+      <img id="profilePic" class="avatar" alt="profile">
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+    <a id="loginLink" href="login.html">Login</a>
+    <a id="registerLink" href="register.html">Register</a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="auth-card" style="max-width: 500px; margin: 0 auto;">
+    <h2>⚙️ Account Settings</h2>
+    
+    <div class="setting-item">
+      <h3>Account Information</h3>
+      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+      <p id="emailVerified" style="color: #10b981; display:none;">✓ Email verified</p>
+      <button class="btn secondary full" onclick="openChangeEmailModal()" style="margin-top: 10px;">Change Email Address</button>
+    </div>
+
+    <div class="setting-item">
+      <h3>Security</h3>
+      <button class="btn secondary full" onclick="changePassword()">Change Password</button>
+      <button class="btn secondary full" onclick="deleteAccount()" style="margin-top: 10px; background-color: rgba(244, 63, 94, 0.1); color: #f43f5e;">Delete Account</button>
+    </div>
+
+    <div class="setting-item">
+      <h3>Preferences</h3>
+      <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 10px 0;">
+        <input type="checkbox" id="emailNotifications" checked>
+        <span>Email notifications for new courses</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 10px 0;">
+        <input type="checkbox" id="darkMode" checked>
+        <span>Dark mode (enabled)</span>
+      </label>
+    </div>
+
+    <div class="setting-item">
+      <h3>💰 Subscription</h3>
+      <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--primary); margin-bottom: 15px;">
+        <p style="margin: 0 0 10px 0; color: var(--text);"><strong>Current Plan:</strong> <span id="subscriptionStatus" style="color: var(--primary);">Basic (Free)</span></p>
+        <p style="margin: 0; color: var(--muted); font-size: 0.9rem;" id="subscriptionDetails">No active subscription</p>
+      </div>
+      <button class="btn secondary full" onclick="location.href='pricing.html'" style="margin-bottom: 10px;">📈 Upgrade to Premium</button>
+      <button class="btn secondary full" id="cancelSubBtn" onclick="cancelSubscription()" style="display:none; background-color: rgba(244, 63, 94, 0.1); color: #f43f5e;">✕ Cancel Subscription</button>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 30px;">
+      <a href="profile.html" class="btn secondary full">Back to Profile</a>
+      <button class="btn primary full" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  © 2026 - ⚡ RaidServices
+</footer>
+
+<!-- CHANGE EMAIL MODAL -->
+<div id="changeEmailModal" class="modal" style="display: none;">
+  <div class="modal-content" style="max-width: 450px;">
+    <div class="modal-header">
+      <h2>Change Email Address</h2>
+      <button class="modal-close" onclick="closeChangeEmailModal()">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      <p style="color: var(--muted); margin-bottom: 15px;">Enter your new email address. A verification link will be sent to confirm the change.</p>
+      
+      <div class="input-group" style="margin-bottom: 20px;">
+        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <input id="newEmail" type="email" placeholder="Enter new email address" class="auth-input">
+      </div>
+
+      <div style="background: var(--card); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; border-left: 3px solid var(--primary);">
+        <p style="margin: 0; color: var(--text);"><strong>ℹ️ Note:</strong></p>
+        <p style="margin: 8px 0 0 0; color: var(--muted);">We'll send a verification link to your new email. Click it to confirm the change.</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn secondary full" onclick="closeChangeEmailModal()">Cancel</button>
+      <button class="btn primary full" onclick="changeEmailAddress()">Change Email</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { Toast } from "./utils.js";
+import { onAuthStateChanged, sendPasswordResetEmail, updateEmail, verifyBeforeUpdateEmail } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("userEmail").innerText = user.email || "Anonymous User";
+  if (user.emailVerified) {
+    document.getElementById("emailVerified").style.display = "block";
+  }
+
+  // Check subscription status
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      if (userData.subscription === "premium") {
+        const billingPeriod = userData.subscriptionBillingPeriod || "monthly";
+        const price = userData.subscriptionPrice || 15;
+        document.getElementById("subscriptionStatus").innerText = `✨ Premium (${billingPeriod})`;
+        document.getElementById("subscriptionStatus").style.color = "var(--primary)";
+        document.getElementById("subscriptionDetails").innerText = `€${price}/${billingPeriod === "yearly" ? "year" : "month"} - Active`;
+        document.getElementById("cancelSubBtn").style.display = "block";
+      }
+    }
+  } catch (error) {
+    console.error("Error loading subscription:", error);
+  }
+});
+
+// Modal functions
+window.openChangeEmailModal = () => {
+  const modal = document.getElementById("changeEmailModal");
+  if (modal) {
+    modal.style.display = "flex";
+    const emailInput = document.getElementById("newEmail");
+    if (emailInput) emailInput.focus();
+  }
+};
+
+window.closeChangeEmailModal = () => {
+  const modal = document.getElementById("changeEmailModal");
+  if (modal) {
+    modal.style.display = "none";
+    const newEmail = document.getElementById("newEmail");
+    if (newEmail) newEmail.value = "";
+  }
+};
+
+// Change email function
+window.changeEmailAddress = async () => {
+  const newEmail = document.getElementById("newEmail")?.value.trim();
+  const user = auth.currentUser;
+
+  if (!user) {
+    Toast.error("Error", "You must be logged in");
+    return;
+  }
+
+  if (!newEmail) {
+    Toast.error("Email Required", "Please enter new email address");
+    return;
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(newEmail)) {
+    Toast.error("Invalid Email", "Please enter a valid email address");
+    return;
+  }
+
+  // Check if same as current
+  if (newEmail === user.email) {
+    Toast.warning("Same Email", "This is already your current email");
+    return;
+  }
+
+  try {
+    const btn = event?.target;
+    if (btn) {
+      btn.disabled = true;
+      btn.innerText = "Sending...";
+    }
+
+    // Use verifyBeforeUpdateEmail for better UX
+    await verifyBeforeUpdateEmail(user, newEmail);
+
+    Toast.success("✓ Verification Email Sent!", 
+      `A confirmation link has been sent to:\n${newEmail}\n\n📥 Check your inbox first\n📨 Then check Spam folder\n\nClick the link in the email to confirm the change.`);
+    
+    // Close modal after 2 seconds
+    setTimeout(() => {
+      window.closeChangeEmailModal();
+    }, 2000);
+
+  } catch (error) {
+    console.error("Email change error:", error);
+
+    if (error.code === 'auth/email-already-in-use') {
+      Toast.error("Email Already In Use", "This email is already registered");
+    } else if (error.code === 'auth/invalid-email') {
+      Toast.error("Invalid Email", "The email format is invalid");
+    } else if (error.code === 'auth/requires-recent-login') {
+      Toast.error("Please Login Again", "For security, please log out and log back in before changing email");
+    } else {
+      Toast.error("Error", error.message || "Failed to change email");
+    }
+
+  } finally {
+    const btn = event?.target;
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = "Change Email";
+    }
+  }
+};
+
+window.changePassword = async () => {
+  const user = auth.currentUser;
+  if (!user || !user.email) {
+    Toast.error("Error", "You must be logged in with email/password");
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, user.email);
+    Toast.success("Email Sent!", "Password reset email has been sent");
+  } catch (error) {
+    Toast.error("Error", error.message);
+  }
+};
+
+window.deleteAccount = async () => {
+  if (!confirm("Are you sure? This action cannot be undone!")) return;
+  try {
+    const user = auth.currentUser;
+    await user.delete();
+    Toast.success("Account Deleted", "Your account has been deleted");
+    setTimeout(() => location.href = "index.html", 1000);
+  } catch (error) {
+    Toast.error("Error", error.message);
+  }
+};
+window.cancelSubscription = async () => {
+  if (!confirm("Are you sure? This will downgrade your account to Basic plan.")) return;
+  
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    await setDoc(userRef, {
+      subscription: "basic",
+      subscriptionPrice: 0,
+      subscriptionBillingPeriod: "free",
+      subscriptionEndDate: new Date().toISOString(),
+      premiumFeatures: {
+        allCourses: false,
+        downloadMaterials: false,
+        projectAccess: false,
+        unlimitedChatbot: false,
+        prioritySupport: false,
+        certificates: false
+      }
+    }, { merge: true });
+
+    Toast.success("Subscription Cancelled", "You've been downgraded to Basic plan");
+    
+    // Update UI
+    document.getElementById("subscriptionStatus").innerText = "Basic (Free)";
+    document.getElementById("subscriptionStatus").style.color = "var(--primary)";
+    document.getElementById("subscriptionDetails").innerText = "No active subscription";
+    document.getElementById("cancelSubBtn").style.display = "none";
+    
+    setTimeout(() => location.reload(), 1500);
+  } catch (error) {
+    console.error("Error cancelling subscription:", error);
+    Toast.error("Error", "Failed to cancel subscription: " + error.message);
+  }
+};</script>
+<script type="module" src="nav-auth.js"></script>
+</body>
+</html>
